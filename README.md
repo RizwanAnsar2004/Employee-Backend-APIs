@@ -19,7 +19,7 @@ When your work is ready to shine, here’s what to do next:
 2. 🔼 **Push your branch** to the remote repository  
 3. 🌐 **Open a Pull Request (PR)** on GitHub:
    - From **your branch** → to the `develop` branch  
-   - Add **Rizwan Ansar** as the reviewer 👤 (He’s got the magic touch 🪄)  
+   - Add **Rizwan Ansar** as the reviewer 👤   
 4. 🧘‍♂️ **Relax!** Rizwan will review, give feedback if needed, and merge your PR  
 
 ---
