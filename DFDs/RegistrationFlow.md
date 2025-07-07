@@ -287,4 +287,5 @@ The registration flow is designed to ensure that all businesses and organization
 ## ✅ End of Process
 Once the organization is approved, the registration is complete.
 
-![image](https://github.com/user-attachments/assets/87d0172a-cde3-4696-ae66-17f12e75395a)
+![USER REGISTRATION AND ORGANIZATION REGISTRATION FLOW](https://github.com/user-attachments/assets/f25558df-7e5d-4010-a30d-c4a90a18c0f4)
+
