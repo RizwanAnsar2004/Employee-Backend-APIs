@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./Routes/UserRoutes');
 const errorHandler = require('./Middlewares/ErrorHandler');
+const OTPRoutes = require('./Routes/OTPRoutes');
 const dbConnect = require('./Config/db');
 
 const app = express();
@@ -13,5 +14,7 @@ dbConnect();
 app.use('/api/users', userRoutes);
 
 app.use(errorHandler);
+
+app.use('/api/otp', OTPRoutes);
 
 module.exports = app;
