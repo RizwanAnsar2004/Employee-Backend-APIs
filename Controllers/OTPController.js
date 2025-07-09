@@ -4,8 +4,8 @@ async function sendOTP(req,res,next)
     {
         try
         {
-            const { email , phoneNo } = req.body;
-            const response = await OTPService.createOrResendOTP(email,phoneNo);
+            const { Email , PhoneNo } = req.body;
+            const response = await OTPService.createOrResendOTP(Email,PhoneNo);
             res.status(200).json(response); 
         } 
         catch (error) 
@@ -17,8 +17,8 @@ async function verifyOTP(req, res, next)
     {
       try 
       {
-        const { email, phoneNo, otp } = req.body;
-        const response = await OTPService.verifyOTP(email,phoneNo,otp);
+        const { Email, PhoneNo, OTP } = req.body;
+        const response = await OTPService.verifyOTP(Email,PhoneNo,OTP);
         res.status(response.success ? 200 : 400).json(response);
       } 
       catch (error) 
