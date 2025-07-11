@@ -1,4 +1,6 @@
 const OTPService = require('../Services/OTPService');
+const { SendOTPDTO } = require('../DTO/SendOTPDTO');
+const { VerifyOTPModel } = require('../DTO/OTPVerificationDTO');
 
 async function sendOTP(req,res,next)
     {
