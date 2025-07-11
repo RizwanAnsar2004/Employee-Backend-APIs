@@ -49,7 +49,7 @@ async function verifyOTP(dto)
     }
     const record = await otpVerificationModel.findOne(searchParamters);
     if (!record)  throw new Error('Invalid Email or Phone Number');
-    if (record.otp !== otp) throw new ('Incorrect OTP entered');
+    if (record.otp !== otp) throw new Error('Incorrect OTP entered');
    
     record.isVerified = true;
     record.isActive = false;
