@@ -1,25 +1,28 @@
-function validateSendOTP(req, res, next) {
-  const { email, phoneNo } = req.body;
-  if (!email || !phoneNo)
-     {
-    return res.status(400).json({ message: "Email and PhoneNo both are required" });
-     }
+const VerifyOTPModel = require("../DTO/OTPVerificationDTO");
+const SendOtpDTO = require("../DTO/SendOTPDTO");
 
-  next();
+function validateSendOTP(req, res, next) {
+ try {
+  const dto = new SendOtpDTO(req.body);
+  req.verificationData = dto;
+
+   next();
+
+ } catch (err) {
+  res.status(400);
+ }
 }
 
 function validateVerificationOTP(req, res, next) {
-  const { email, phoneNo, otp } = req.body;
-  if (!email && !phoneNo) 
-    {
-    return res.status(400).json({ message: "At least enter Email or PhoneNo for verification" });
-    }
-  if (!otp) 
-    {
-    return res.status(400).json({ message: "Please enter OTP, it is required" });
-    }
+  try {
+    const dto = new VerifyOTPModel(req.body);
+    req.verificationData= dto;
 
-  next();
+    next();
+    
+  } catch (err) {
+    res.status(400);
+  }
 }
 
 module.exports = {validateSendOTP,validateVerificationOTP};

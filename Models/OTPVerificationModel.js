@@ -1,34 +1,33 @@
 const mongoose = require("mongoose");
 const otpSchema = new mongoose.Schema({
-    Email : {
+    email : {
         type: String,
         required: true,
         match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ 
     },
-    PhoneNo: {
+    phoneNo: {
         type: String,
         required: true,
         match: /^03[0-9]{9}$/
     },
-    OTP : {
+    otp : {
         type: String,
         required: true,
         minlength: 4,
         maxlength: 4,
         match: /^[0-9]{4}$/
     },
-    IsVerified : {
+    isVerified : {
         type: Boolean,
         default: false
     },
-    IsActive: {
+    isActive: {
         type: Boolean,
         default: true
     },
-    CreatedAt : { 
+    createdAt : { 
         type: Date, 
-        default: Date.now,
-        expires: 300
+        default: Date.now
     }
 });
 
