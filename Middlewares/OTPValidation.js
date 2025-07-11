@@ -3,8 +3,8 @@ const { SendOTPDTO }= require("../DTO/SendOTPDTO");
 
 function validateSendOTP(req, res, next) {
  try {
-  const dto = new SendOTPDTO(req.body);
-  req.verificationData = dto;
+  const OTPObject = new SendOTPDTO(req.body);
+  req.verificationData = OTPObject;
 
    next();
 

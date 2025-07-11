@@ -5,16 +5,17 @@ function generateOTP(){
     return Math.floor(Math.random()*10000).toString().padStart(4,'0');
 }
 
-async function createOrResendOTP(email,phoneNo)
+async function createOrResendOTP(OTPObject)
 {
+    const {email, phoneNo} = OTPObject;
     await otpVerificationModel.updateMany({
         email:email,
-        phoneNo : phoneNo,
+        phoneNo:phoneNo,
         isVerified: false, 
         isActive: true
     }, 
         {
-             $set: { isVerified : true } 
+             $set: { isVerified : true, isActive : false } 
         });
 
     const otp = generateOTP();
@@ -47,8 +48,8 @@ async function verifyOTP(dto)
         searchParamters.phoneNo = phoneNo;
     }
     const record = await otpVerificationModel.findOne(searchParamters);
-    if (!record) return { success: false, message: 'Invalid OTP' };
-    if (record.otp !== otp) return { success: false, message: 'Incorrect OTP entered' };
+    if (!record)  throw new Error('Invalid Email or Phone Number');
+    if (record.otp !== otp) throw new ('Incorrect OTP entered');
    
     record.isVerified = true;
     record.isActive = false;

@@ -1,5 +1,5 @@
 class SendOTPDTO{
-    constructor({email,phoneNo}){
+    constructor({email, phoneNo}){
         if (!email) {
             throw new Error("Enter Valid Email");
         }
@@ -8,11 +8,7 @@ class SendOTPDTO{
         }
 
         this.email = email ;
-        this.phoneNo=phoneNo;
-    }
-    isValid()
-    {
-        return !!this.email && !!this.phoneNo;
+        this.phoneNo = phoneNo;
     }
 }
 module.exports = { SendOTPDTO };
