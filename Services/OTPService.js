@@ -14,7 +14,7 @@ async function createOrResendOTP(email,phoneNo)
         isActive: true
     }, 
         {
-             $set: { isVerified: true } 
+             $set: { isVerified : true } 
         });
 
     const otp = generateOTP();
@@ -27,7 +27,6 @@ async function createOrResendOTP(email,phoneNo)
     }).save();
     
     console.log(`OTP sent to ${email} | ${phoneNo} \n otp: ${otp}`);
-    console.log('OTP expires in 5 minutes⏳')
     return {message: 'OTP sent'};
 }
 
@@ -35,24 +34,24 @@ async function verifyOTP(dto)
 {
     const { email, phoneNo, otp } = dto;
     const searchParamters={
-        IsActive:true,
-        IsVerified: false 
+        isActive:true,
+        isVerified: false 
     };
 
     if(email) 
     {
         searchParamters.email = email;
     }
-    if(PhoneNo)
+    if(phoneNo)
     {
         searchParamters.phoneNo = phoneNo;
     }
     const record = await otpVerificationModel.findOne(searchParamters);
-    if (!record) return { success: false, message: 'OTP not found. Please request a new one' };
-    if (record.OTP !== otpEntered) return { success: false, message: 'Incorrect OTP entered' };
+    if (!record) return { success: false, message: 'Invalid OTP' };
+    if (record.otp !== otp) return { success: false, message: 'Incorrect OTP entered' };
    
-    record.IsVerified = true;
-    record.IsActive = false;
+    record.isVerified = true;
+    record.isActive = false;
     await record.save();
     return { success: true, message: 'OTP Verified successfully' };
 }

@@ -5,10 +5,10 @@ constructor ({email,phoneNo,otp})
         throw new Error("OTP is Required");
     }
     if (!email) {
-        throw new Error("Invalid Email");
+        throw new Error("Enter Valid Email");
     }
     if (!phoneNo) {
-        throw new Error("Invalid Phone No")
+        throw new Error("Enter Valid Phone No")
     }
 
     this.email = email || null;
