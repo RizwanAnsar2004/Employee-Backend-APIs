@@ -20,14 +20,16 @@ const getAllBanks = async (req, res) => {
   }
 };
 
-const toggleBankStatus = async (req, res) => {
+const updateBankStatus = async (req, res) => {
   try {
-    const updatedBank = await bankService.toggleBankStatus(req.params.id);
+    const { id } = req.params;
+    const { isActive } = req.body;
+    const updatedBank = await bankService.updateBankStatus(id, isActive);
     res.status(200).json({ message: "Bank status updated", data: updatedBank });
   }
-   catch (err) {
+  catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-module.exports = { addBankInfo, getAllBanks,toggleBankStatus };
+module.exports = { addBankInfo, getAllBanks,updateBankStatus };

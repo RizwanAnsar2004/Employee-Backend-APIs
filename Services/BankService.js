@@ -14,15 +14,19 @@ const getAllBanks = async () => {
   return await bank.find({ isActive: true});
 };
 
-const toggleBankStatus = async (bankID) => {
-    const updatedBank = await bank.findById(bankID);
+const updateBankStatus = async (bankID, isActive) => {
+    const updatedBank = await bank.findByIdAndUpdate(
+        bankID,
+        { isActive },
+        { new: true, runValidators: true }
+    );
 
     if (!updatedBank) {
         throw new Error("Bank not found");
     }
 
-    updatedBank.isActive = !updatedBank.isActive;
-    return await updatedBank.save();;
+    return updatedBank;
 };
 
-module.exports = { addBankInfo, getAllBanks, toggleBankStatus };
+
+module.exports = { addBankInfo, getAllBanks, updateBankStatus };
