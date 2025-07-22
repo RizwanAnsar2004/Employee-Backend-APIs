@@ -6,9 +6,12 @@ const userBankSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
         required: true
+      }, 
+      bankID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "banks",
+        required: true
       },
-      bankName:String,
-      bankID:String,
       accountTitle: String,
       accountNo: String,
       swiftCode: String

@@ -1,10 +1,8 @@
 class RegisterLicenseDTO{
-    constructor({userID,frontLicenseImgID,backLicenseImgID}){
-        if (!userID) throw new Error("User ID is required");
+    constructor({frontLicenseImgID,backLicenseImgID}){
         if (!frontLicenseImgID) throw new Error("Front License Image is required"); // Image URL rather than img ID right??
         if (!backLicenseImgID) throw new Error("Back License Image is required");
 
-        this.userID = userID;
         this.frontLicenseImgID = frontLicenseImgID;
         this.backLicenseImgID = backLicenseImgID;
     }

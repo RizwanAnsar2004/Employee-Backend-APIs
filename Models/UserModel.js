@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  email : {
+   email : {
         type: String,
         required: true,
         match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ 
@@ -11,12 +11,26 @@ const userSchema = new mongoose.Schema({
         required: true,
         match: /^03[0-9]{9}$/
     },
-    firstname: String,
-    lastname: String,
+    firstName: String,
+    lastName: String,
     dateOfBirth: Date,
     password: String,
     frontLicenseImgID: String,
-    backLicenseImgID : String
+    backLicenseImgID : String,
+    isActive: {
+        type: Boolean,
+        default: true
+    },
+     statusID: {
+    type: String,
+    enum: ['pending', 'verified'],
+    default: 'pending'
+    },
+    roleID: {
+        type: String,
+        default: "Admin" 
+    }
+
 });
 
 module.exports = mongoose.model('users', userSchema);

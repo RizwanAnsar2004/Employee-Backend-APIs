@@ -1,39 +1,21 @@
-const { RegisterUserDTO } = require("../DTO/RegisterUserDTO")
+const { RegisterUserDTO } = require("../DTO/RegisterUserDTO");
 const { RegisterLicenseDTO } = require("../DTO/RegisterLicenseDTO");
 const { RegisterBankInfoDTO } = require("../DTO/RegisterBankInfoDTO");
 
-function validateUser(req,res,next){
-try {
-    const dto = new RegisterUserDTO(req.body);
-    req.userData = dto;
-    
-    next();
-} catch (err) {
-    res.status(400).json({message: err.message});
-}
-}
-
-function validateLicense(req,res,next){
+function validateDTO(req, res, next) {
     try {
-        const LicenseVdto = new RegisterLicenseDTO(req.body);
-        req.licenseData = LicenseVdto;  
-        
-        next();
-    } catch (err) {
-        res.status(400).json({message:err.message});
-    }
-}
+        const userDTO = new RegisterUserDTO(req.body);
+        const licenseDTO = new RegisterLicenseDTO(req.body);
+        const bankDTO = new RegisterBankInfoDTO(req.body);
 
-function validateBankInfo(req,res,next){
-    try {
-        const BankInfoDTO = new RegisterBankInfoDTO(req.body);
-        req.bankData = BankInfoDTO;
+        req.userData = userDTO;
+        req.licenseData = licenseDTO;
+        req.bankData = bankDTO;
 
         next();
     } catch (err) {
-        res.status(400).json({message:err.message});
+        res.status(400).json({ message: err.message });
     }
 }
 
-
-module.exports = { validateUser,validateLicense,validateBankInfo };
+module.exports = { validateDTO };
