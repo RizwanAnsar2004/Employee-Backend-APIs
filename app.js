@@ -4,7 +4,7 @@ const userRoutes = require('./Routes/UserRoutes');
 const errorHandler = require('./Middlewares/ErrorHandler');
 const OTPRoutes = require('./Routes/OTPRoutes');
 const dbConnect = require('./Config/db');
-const registrationRoutes = require('./Routes/RegistrationRoutes');
+const authRoutes = require('./Routes/AuthRoutes');
 const bankRoutes = require("./Routes/AddBankDataRoutes");
 
 const app = express();
@@ -17,7 +17,7 @@ app.use('/api/users', userRoutes);
 
 app.use('/api/otp', OTPRoutes);
 
-app.use('/api/auth', registrationRoutes);
+app.use('/api/auth', authRoutes);
 
 app.use("/api/banks", bankRoutes);
 

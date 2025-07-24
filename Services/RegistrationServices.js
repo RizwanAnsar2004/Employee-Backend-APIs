@@ -4,59 +4,36 @@ const userBank = require("../Models/UserBankModel");
 
 async function registerUser(userData)
 {
-    try{const {email,phoneNo,firstName,lastName,dateOfBirth,password} = userData;
-
     const SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS || "10", 10);
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const hashedPassword = await bcrypt.hash(userData.password, SALT_ROUNDS);
 
     const user = await new User({
-    email : email,
-    phoneNo : phoneNo,
-    firstName : firstName,
-    lastName : lastName,
-    dateOfBirth : dateOfBirth,
-    password: hashedPassword
+    email : userData.email,
+    phoneNo : userData.phoneNo,
+    firstName : userData.firstName,
+    lastName : userData.lastName,
+    dateOfBirth : userData.dateOfBirth,
+    password: hashedPassword,
+    frontLicenseImgID: userData.frontLicenseImgID,
+    backLicenseImgID: userData.backLicenseImgID
     }).save();
 
-     return {
-    message: "User Identity Info saved",
-    userID: user._id
-  };}
-    catch (error) {
-    throw new Error(`User registration failed: ${error.message}`);
-  }
-  }
+    if(user==null){
+      throw new Error("User Registration failed");
+    }
+
+    const userBankData = await new userBank({
+      userID: user._id,
+      bankID : userData.bankID,
+      accountTitle : userData.accountTitle,
+      accountNo : userData.accountNo,
+      swiftCode : userData.swiftCode
+    }).save();
     
-
- async function registerLicenseInfo(licenseData){
-   try{const user = await User.findByIdAndUpdate(
-    licenseData.userID,
-    {
-      frontLicenseImgID: licenseData.frontLicenseImgID,
-      backLicenseImgID: licenseData.backLicenseImgID,
-    },
-    { new: true }
-  );
-
-  if (!user) throw new Error("User not found");
-  return { message: "License Info saved" };}
-  catch(error){
-    throw new Error(`Failed to save license info: ${error.message}`);
-  }
-  }
-  
-  async function registerBankInfo(bankData){
-    try {const { userID } = bankData;
-    const user = await User.findById(userID);
-    
-    if (!user) throw new Error("User not found");
-    await new userBank(bankData).save();
-    
-    return { message: "Bank info saved" };}
-
-    catch (error) {
-    throw new Error(`Failed to save bank info: ${error.message}`);
-  }
+    return {
+      message: "User Registration successful",
+      userID: user._id
+    }
   }
 
-    module.exports = { registerUser, registerLicenseInfo,registerBankInfo };
+    module.exports = { registerUser };

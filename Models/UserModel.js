@@ -22,13 +22,13 @@ const userSchema = new mongoose.Schema({
         default: true
     },
      statusID: {
-    type: String,
-    enum: ['pending', 'verified'],
-    default: 'pending'
+    type: Number,
+    enum: [0,1],
+    default: 0
     },
     roleID: {
         type: String,
-        default: "Admin" 
+        default: "Owner" 
     }
 
 });
