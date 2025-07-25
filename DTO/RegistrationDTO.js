@@ -1,24 +1,22 @@
+const { validatePassword } = require("../Helpers/ValidatePassword");
+
 class RegistrationDTO{
     constructor({email,phoneNo,firstName,lastName,dateOfBirth,password,frontLicenseImgID,backLicenseImgID,bankID, accountTitle, accountNo, swiftCode}){
-    const anyUserDatafield =  email || phoneNo || firstName || lastName || dateOfBirth || password || frontLicenseImgID|| backLicenseImgID;
-    const fillUserDatafields = email && phoneNo && firstName && lastName && dateOfBirth && password && frontLicenseImgID&& backLicenseImgID;
-
-    if (anyUserDatafield && !fillUserDatafields) {
-      throw new Error("All personal and license information are required");
+    const requiredUserData =  {email, phoneNo, firstName, lastName, dateOfBirth, password, frontLicenseImgID, backLicenseImgID};
+    const missingUserData = Object.entries(requiredUserData).filter(([key, val]) => !val);
+    if (missingUserData.length >0)
+    {
+      const fields = missingUserData.map(([key])=>key).join(", ");
+      throw new Error(`Missing required fields: ${fields}`);
     }
 
-     if (password) {
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+]{8,}$/;
-        if (!passwordRegex.test(password)) {
-            throw new Error("Password must be at least 8 characters and include both letters and numbers.");
-        }
-    }
-
-    const anyBankfield =  bankID || accountTitle || accountNo || swiftCode;
-    const fillBankfields = bankID && accountTitle && accountNo && swiftCode;
-
-    if (anyBankfield && !fillBankfields) {
-      throw new Error("If you're entering bank information, Fill all the fields");
+    const bankFields = { bankID, accountTitle, accountNo, swiftCode };
+    const filledBankFields = Object.entries(bankFields).filter(([k, v]) => v);
+    if (
+      filledBankFields.length > 0 &&
+      filledBankFields.length < Object.keys(bankFields).length
+    ) {
+      throw new Error("Fill all the Bank account information");
     }
 
     this.email = email;
@@ -26,6 +24,7 @@ class RegistrationDTO{
     this.firstName = firstName;
     this.lastName = lastName;
     this.dateOfBirth = dateOfBirth;
+    validatePassword(password);
     this.password = password;
     this.frontLicenseImgID = frontLicenseImgID;
     this.backLicenseImgID = backLicenseImgID;

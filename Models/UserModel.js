@@ -1,4 +1,12 @@
 const mongoose = require('mongoose');
+const status ={
+    PENDING: 0,
+    VERIFIED: 1
+}
+const role ={
+    OWNER: 0,
+    EMPLOYEE: 1
+}
 
 const userSchema = new mongoose.Schema({
    email : {
@@ -23,14 +31,14 @@ const userSchema = new mongoose.Schema({
     },
      statusID: {
     type: Number,
-    enum: [0,1],
-    default: 0
+    enum: [status.PENDING, status.VERIFIED],
+    default: status.PENDING
     },
     roleID: {
-        type: String,
-        default: "Owner" 
+        type: Number,
+        enum: [role.OWNER, role.EMPLOYEE],
+        default: role.OWNER 
     }
-
 });
 
 module.exports = mongoose.model('users', userSchema);

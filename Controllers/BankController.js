@@ -23,8 +23,7 @@ const getAllBanks = async (req, res) => {
 const updateBankStatus = async (req, res) => {
   try {
     const { id } = req.params;
-    const { isActive } = req.body;
-    const updatedBank = await bankService.updateBankStatus(id, isActive);
+    const updatedBank = await bankService.deactivateBank(id);
     res.status(200).json({ message: "Bank status updated", data: updatedBank });
   }
   catch (err) {

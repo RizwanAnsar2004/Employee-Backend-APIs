@@ -3,9 +3,9 @@ class AddBankDTO{
         if (!bankName || !bankCode){
             throw new Error("*Bank Name and Bank Code are required")
         }
-        this.bankName = bankName;
-        this.bankCode = bankCode;
-        this.bankAddress = bankAddress || null;
+        this.bankName = bankName.trim().toLowerCase();
+        this.bankCode = bankCode.trim().toLowerCase();
+        this.bankAddress = bankAddress ? bankAddress.trim().toLowerCase() : null;
 
     }
 }
