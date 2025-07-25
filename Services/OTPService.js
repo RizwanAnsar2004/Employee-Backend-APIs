@@ -15,7 +15,7 @@ async function createOrResendOTP(OTPObject)
         isActive: true
     }, 
         {
-             $set: { isVerified : true, isActive : false } 
+             $set: {isActive : false } 
         });
 
     const otp = generateOTP();
