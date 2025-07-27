@@ -18,7 +18,6 @@ async function registerUser(userData)
     if (existingUser) {
       throw new Error("User with this email or phone number already exists");
     }
-    
     const SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS || "10", 10);
     const hashedPassword = await bcrypt.hash(userData.password, SALT_ROUNDS);
 
