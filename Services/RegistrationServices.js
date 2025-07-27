@@ -8,7 +8,17 @@ async function registerUser(userData)
   const session = await mongoose.startSession();
   try{
   session.startTransaction();
+  const existingUser = await User.findOne({
+      $or: [
+        { email: userData.email },
+        { phoneNo: userData.phoneNo }
+      ]
+    }).session(session);
 
+    if (existingUser) {
+      throw new Error("User with this email or phone number already exists");
+    }
+    
     const SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS || "10", 10);
     const hashedPassword = await bcrypt.hash(userData.password, SALT_ROUNDS);
 
