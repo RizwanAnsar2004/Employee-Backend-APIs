@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { registerUserController } = require("../Controllers/RegistrationController");
+const { registerationController } = require("../Controllers/RegistrationController");
 const { validateDTO } = require("../Middlewares/ValidateUserRegistration");
-router.post("/register", validateDTO, registerUserController);
+const { validateOrgDTO } = require("../Middlewares/ValidateOrgRegistration");
+router.post("/register", validateDTO,validateOrgDTO, registerationController);
 module.exports = router;

@@ -14,7 +14,11 @@ const userBankSchema = new mongoose.Schema({
       },
       accountTitle: String,
       accountNo: String,
-      swiftCode: String
+      swiftCode: String,
+      isActive: {
+        type: Boolean,
+        default: true
+    }
 })
-
+userBankSchema.index({ bankID: 1, accountNo: 1 }, { unique: true });
 module.exports = mongoose.model('user_banks', userBankSchema);
