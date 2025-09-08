@@ -16,15 +16,15 @@ class RegisterOrganization {
     city = required('city'),
     country = required('country'),
     stablishedDate = required('stablishedDate'),
-    logoURL =  required('logoURL'),
     description = required('description'),
     numberOfEmployees = required('numberOfEmployees')})
 {
     this.organizationName = organizationName;
-    if (!Object.values(OrgTypeEnum).includes(orgType)) {
-        throw new Error(`Invalid organization type: ${orgType}`);
-    }
-    this.orgType = orgType;
+    this.orgType = Number(orgType);
+    if (!Object.values(OrgTypeEnum).includes(this.orgType))
+        {
+            throw new Error(`Invalid organization type: ${orgType}`);
+        }
     this.registrationNumber = registrationNumber;
     this.industryOrSector = industryOrSector;
     this.orgEmail = orgEmail;
@@ -34,7 +34,6 @@ class RegisterOrganization {
     this.city = city;
     this.country = country;
     this.stablishedDate =stablishedDate;
-    this.logoURL =  logoURL;
     this.description = description;
     this.numberOfEmployees = numberOfEmployees;
 }

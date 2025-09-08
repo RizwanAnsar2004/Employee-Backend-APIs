@@ -4,7 +4,7 @@ const { organizationStatus,OrgTypeEnum } = require('../Utils/Enums');
 const organizationSchema = new mongoose.Schema({
     organizationName: String,
     orgType: {
-        type: String,
+        type: Number,
         enum: Object.values(OrgTypeEnum)
     },
     registrationNumber: String,
@@ -26,7 +26,7 @@ const organizationSchema = new mongoose.Schema({
     city: String,
     country:String,
     stablishedDate: Date,
-    logoURL: String,
+    logo: String,
     orgStatus: {
     type: String,
     enum: Object.values(organizationStatus),
@@ -42,4 +42,4 @@ const organizationSchema = new mongoose.Schema({
    }
 })
 organizationSchema.index({ registrationNumber: 1, organizationName: 1 }, { unique: true });
-module.exports = mongoose.model('user_Organization', organizationSchema);
+module.exports = mongoose.model('userOrganization', organizationSchema);

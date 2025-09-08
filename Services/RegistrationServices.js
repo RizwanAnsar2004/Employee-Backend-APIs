@@ -5,7 +5,7 @@ const userBank = require("../Models/UserBankModel");
 const bank = require("../Models/BankModel");
 const organizationSchema = require("../Models/OrganizationModel");
 
-async function registerUser(userData,orgData)
+async function registerUser(userData,orgData,files)
 {
   const session = await mongoose.startSession();
   try{
@@ -21,6 +21,18 @@ async function registerUser(userData,orgData)
       throw new Error("User with this email or phone number already exists");
     }
 
+    if(files?.frontLicenseImg){
+      userData.frontLicenseImg= files.frontLicenseImg[0].buffer.toString('base64');
+    }
+
+    if(files?.backLicenseImg){
+      userData.backLicenseImg = files.backLicenseImg[0].buffer.toString('base64');
+    }
+
+    if(files?.logo){
+      orgData.logo = files.logo[0].buffer.toString('base64');
+    }
+    
     if (userData.bankID) {
       const existingBank = await bank.findById(userData.bankID).session(session);
       if (existingBank) {
@@ -43,8 +55,8 @@ async function registerUser(userData,orgData)
     lastName : userData.lastName,
     dateOfBirth : userData.dateOfBirth,
     password: hashedPassword,
-    frontLicenseImgID: userData.frontLicenseImgID,
-    backLicenseImgID: userData.backLicenseImgID
+    frontLicenseImg: userData.frontLicenseImg,
+    backLicenseImg: userData.backLicenseImg
     }).save({ session });
 
     if(user==null){
@@ -71,7 +83,7 @@ async function registerUser(userData,orgData)
       city : orgData.city,
       country : orgData.country,
       stablishedDate : orgData.stablishedDate,
-      logoURL : orgData.logoURL,
+      logo : orgData.logo,
       description : orgData.description,
       numberOfEmployees : orgData.numberOfEmployees
       }).save({session});

@@ -2,7 +2,8 @@ const registrationServices = require('../Services/RegistrationServices');
 
 async function registerationController(req,res,next){
     try{
-      const userResult = await registrationServices.registerUser(req.userData,req.orgData);
+      const files = req.files;
+      const userResult = await registrationServices.registerUser(req.userData,req.orgData,req.files);
       res.status(201).json({
       user: userResult
     });

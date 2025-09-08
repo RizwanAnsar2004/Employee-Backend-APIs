@@ -18,8 +18,8 @@ const userSchema = new mongoose.Schema({
     lastName: String,
     dateOfBirth: Date,
     password: String,
-    frontLicenseImgID: String,
-    backLicenseImgID : String,
+    frontLicenseImg: String,
+    backLicenseImg : String,
     isActive: {
         type: Boolean,
         default: true

@@ -12,11 +12,11 @@ const organizationStatus={
 }
 
 const OrgTypeEnum = {
-  COMPANY: 'Company',
-  SCHOOL: 'School',
-  NGO: 'NGO',
-  HOSPITAL: 'Hospital',
-  OTHER: 'Other'
+  COMPANY: 1,
+  SCHOOL: 2,
+  NGO: 3,
+  HOSPITAL: 4,
+  OTHER: 5
 };
 
 module.exports= { status,role,organizationStatus,OrgTypeEnum };
