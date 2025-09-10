@@ -19,7 +19,7 @@ const organizationSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        match: /^03[0-9]{9}$/
+        match: /^(03[0-9]{9}|0[1-9][0-9]{7,9})$/
     },
     website:  String,
     address: String,
