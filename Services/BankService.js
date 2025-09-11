@@ -11,7 +11,8 @@ const addBankInfo = async (addBankData) => {
 };
 
 const getAllBanks = async () => {
-  return await bank.find({ isActive: true});
+  const result = await bank.find({ isActive: true});
+  return result || [];
 };
 
 const deactivateBank  = async (bankID) => {
