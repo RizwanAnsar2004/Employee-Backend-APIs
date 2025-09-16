@@ -14,7 +14,11 @@ const userBankSchema = new mongoose.Schema({
       },
       accountTitle: String,
       accountNo: String,
-      swiftCode: String,
+      swiftCode:{
+       type : String,
+       minlength: 8,
+       maxlength: 11,
+      },
       isActive: {
         type: Boolean,
         default: true

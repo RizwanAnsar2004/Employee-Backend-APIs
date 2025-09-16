@@ -19,7 +19,7 @@ const organizationSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        match: /^(03[0-9]{9}|0[1-9][0-9]{7,9})$/
+        match: /^\+\d{10,14}$/
     },
     website:  String,
     address: String,
@@ -28,13 +28,14 @@ const organizationSchema = new mongoose.Schema({
     stablishedDate: Date,
     logo: String,
     orgStatus: {
-    type: String,
+    type: Number,
     enum: Object.values(organizationStatus),
-    default: organizationStatus.PENDING},
+    default: organizationStatus.PENDING
+    },
     description: String,
     numberOfEmployees: {
     type: Number,
-    min: 0
+    min: 1
     },
     createdAt: {
     type: Date,

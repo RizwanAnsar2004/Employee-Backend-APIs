@@ -1,6 +1,7 @@
 const status ={
     PENDING: 0,
-    VERIFIED: 1
+    VERIFIED: 1,
+    BLOCKED: 2
 }
 const role ={
     OWNER: 0,
@@ -8,7 +9,8 @@ const role ={
 }
 const organizationStatus={
     PENDING: 0,
-    VERIFIED: 1
+    VERIFIED: 1,
+    BLOCKED: 2
 }
 
 const OrgTypeEnum = {

@@ -1,5 +1,4 @@
 const bankService = require("../Services/BankService");
-const { BankResponseDTO } = require("../DTO/BankDTO");
 
 const addBankInfo = async (req, res) => {
   try {
@@ -14,8 +13,7 @@ const addBankInfo = async (req, res) => {
 const getAllBanks = async (req, res) => {
   try {
     const banks = await bankService.getAllBanks();
-    const response = banks.map(b => new BankResponseDTO(b));
-    res.status(200).json({ Banks : response });
+    res.status(200).json({ Banks : banks });
   } 
   catch (err) {
     res.status(500).json({ message: err.message });
