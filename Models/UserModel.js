@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    isSystemAdmin: {
+        type : Boolean,
+        default : false
+    },
      statusID: {
     type: Number,
     enum: Object.values(status),

@@ -7,6 +7,12 @@ const organizationSchema = new mongoose.Schema({
         type: Number,
         enum: Object.values(OrgTypeEnum)
     },
+    orgTypeDetail: {
+        type: String,
+        required: function () {
+            return this.orgType === OrgTypeEnum.OTHER;
+        }
+    },
     registrationNumber: String,
     industryOrSector: String,
     orgEmail : {
