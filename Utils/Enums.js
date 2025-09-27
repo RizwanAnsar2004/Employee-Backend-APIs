@@ -4,8 +4,9 @@ const status ={
     BLOCKED: 3
 }
 const role ={
-    OWNER: 1,
-    EMPLOYEE: 2
+    SUPERADMIN: 1,
+    OWNER: 2,
+    EMPLOYEE: 3
 }
 const organizationStatus={
     PENDING: 1,

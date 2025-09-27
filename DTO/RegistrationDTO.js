@@ -1,4 +1,7 @@
 const { validatePassword } = require("../Helpers/ValidatePassword");
+const required = (param) => {
+throw new Error(`${param} is required`);
+}
 
 class RegistrationDTO{
     constructor({email,phoneNo,firstName,lastName,dateOfBirth,password,bankID, accountTitle, accountNo, swiftCode}){
@@ -32,4 +35,13 @@ class RegistrationDTO{
           this.swiftCode = swiftCode || null;
         }
       }
-      module.exports = { RegistrationDTO }
+
+class UserCredentialsDTO{
+  constructor({email = required('email'),
+    password = required('password')})
+  {
+    this.email=email;
+    this.password = password;
+  }
+}
+      module.exports = { RegistrationDTO,UserCredentialsDTO }

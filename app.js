@@ -6,6 +6,7 @@ const OTPRoutes = require('./Routes/OTPRoutes');
 const dbConnect = require('./Config/db');
 const authRoutes = require('./Routes/AuthRoutes');
 const bankRoutes = require("./Routes/AddBankDataRoutes");
+const orgRoutes = require("./Routes/OrganizationRoutes");
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/otp', OTPRoutes);
 
 app.use('/api/auth', authRoutes);
+
+app.use("/api/orgs", orgRoutes);
 
 app.use("/api/banks", bankRoutes);
 

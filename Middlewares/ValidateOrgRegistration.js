@@ -1,11 +1,14 @@
-const { RegisterOrganization } = require("../DTO/OrganizationRegistrationDTO");
+const { RegisterOrganization } = require("../DTO/OrganizationDTO");
 
 function validateOrgDTO(req, res, next) {
-    try {
+    try 
+    {
         const dto = new RegisterOrganization(req.body);
         req.orgData = dto;
         next();
-    } catch (err) {
+    }
+    catch (err)
+    {
         res.status(400).json({ message: err.message });
     }
 }

@@ -1,7 +1,12 @@
-const { OrgTypeEnum } = require('../Utils/Enums');
+const { organizationStatus,OrgTypeEnum } = require('../Utils/Enums');
+
 const required = (param) => {
 throw new Error(`${param} is required`);
 }
+
+const organizationStatusString = Object.fromEntries(
+  Object.entries(organizationStatus).map(([k, v]) => [v, k])
+);
 
 class RegisterOrganization {
     constructor({
@@ -38,5 +43,36 @@ class RegisterOrganization {
     this.numberOfEmployees = numberOfEmployees;
 }
 }
+class OrgResponseDTO {
+  constructor({
+    _id,
+    organizationName,
+    orgType,
+    orgTypeDetail,
+    orgStatus,
+    registrationNumber,
+    orgEmail,
+    orgPhoneNo,
+    city,
+    country,
+    description,
+    numberOfEmployees
+  }) {
+    this.orgId = _id;
+    this.organizationName = organizationName;
+    this.orgType = orgType;
+    if (orgTypeDetail) {
+      this.orgTypeDetail = orgTypeDetail;
+    }
+    this.status = organizationStatusString[orgStatus];
+    this.registrationNumber = registrationNumber;
+    this.orgEmail = orgEmail;
+    this.orgPhoneNo = orgPhoneNo;
+    this.city = city;
+    this.country = country;
+    this.description = description;
+    this.numberOfEmployees = numberOfEmployees;
+  }
+}
 
-module.exports = { RegisterOrganization };
+module.exports = { RegisterOrganization,OrgResponseDTO }
