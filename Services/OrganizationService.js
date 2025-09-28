@@ -2,17 +2,26 @@ const Organization = require("../Models/OrganizationModel");
 const { organizationStatus } = require("../Utils/Enums");
 const { OrgResponseDTO } = require("../DTO/OrganizationDTO")
 
-async function getAllOrganization()
+async function getOrganization(filter)
 {
-  const allOrgs = await Organization.find();
+  let query={};
+  switch(filter?.toLowerCase()){
+    case "pending" :
+      query.orgStatus = organizationStatus.PENDING;
+      break;
+    case "approved" :
+      query.orgStatus = organizationStatus.VERIFIED;
+      break;
+    case "rejected" :
+      query.orgStatus = organizationStatus.BLOCKED;
+      break;
+    case "all" :
+      break;
+    default:
+      throw new Error("Invalid status filter");
+  }
+  const allOrgs = await Organization.find(query);
   const response = allOrgs.map(org => new OrgResponseDTO(org))
-  return response || [];
-}
-
-async function getPendingOrganizations()
-{
-  const pendingOrganizations = await Organization.find({ orgStatus: organizationStatus.PENDING })
-  const response = pendingOrganizations.map(p => new OrgResponseDTO(p));
   return response || [];
 }
 
@@ -40,4 +49,4 @@ async function rejectOrganization(orgId)
   return new OrgResponseDTO(rejectedOrg);
 }
 
-module.exports = {  getAllOrganization,getPendingOrganizations,verifyOrganization,rejectOrganization}
+module.exports = {  getOrganization,verifyOrganization,rejectOrganization}

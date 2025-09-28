@@ -1,23 +1,11 @@
 const orgService = require("../Services/OrganizationService");
 
-async function getAllOrgsController(req,res)
+async function getOrgsController(req,res)
 {
   try
   {
-    const orgs = await orgService.getAllOrganization();
-    res.status(200).json(orgs);
-  }
-  catch (err)
-  {
-    res.status(500).json({ message: err.message });
-  }
-}
-
-async function getPendingOrgsController(req,res)
-{
-  try
-  {
-    const orgs = await orgService.getPendingOrganizations();
+    const filter = req.params.status;
+    const orgs = await orgService.getOrganization(filter);
     res.status(200).json(orgs);
   }
   catch (err)
@@ -54,4 +42,4 @@ async function rejectOrgController(req, res)
   }
 };
 
-module.exports = { getAllOrgsController,getPendingOrgsController,verifyOrgController,rejectOrgController }
+module.exports = { getOrgsController,verifyOrgController,rejectOrgController }
