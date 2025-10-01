@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const User = require("../Models/UserModel");
-const { role } = require("../Utils/Enums");
 
 async function loginService (loginCredentials)
 {
@@ -16,14 +16,14 @@ async function loginService (loginCredentials)
         throw new Error("Invalid credentials");
     }
     
-    if (user.isSystemAdmin && user.roleID === role.SUPERADMIN) 
-    {
-    return{
-      message: "Super Admin Login successful"
-    };}
+    const token = jwt.sign(
+    { id: user._id },
+    process.env.JWT_SECRET,
+    { expiresIn: "1h" });
 
-  return{
-    message: "Login successful"
+   return {
+    message: "Login successful",
+    token: token
   };
 }
 

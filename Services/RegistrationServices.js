@@ -94,9 +94,13 @@ async function registerUser(userData,orgData,files)
 
     await session.commitTransaction();
     return {
-      message: "User and Organization registration successful",
-      userId: user._id,
-      organizationId : org._id
+      status: "success",
+      message: "User and Organization registered",
+      data: 
+      {
+        userId: user._id,
+        organizationId: org._id
+      }
     }
   }
   catch(error){
