@@ -54,6 +54,12 @@ async function verifyOTP(dto)
     record.isVerified = true;
     record.isActive = false;
     await record.save();
+
+    const otpToken = jwt.sign(
+    { email, phoneNo },
+    process.env.JWT_SECRET,
+    { expiresIn: "10m" } );
+
     return { success: true, message: 'OTP Verified successfully' };
 }
 

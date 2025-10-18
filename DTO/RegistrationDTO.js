@@ -1,7 +1,5 @@
 const { validatePassword } = require("../Helpers/ValidatePassword");
-const required = (param) => {
-throw new Error(`${param} is required`);
-}
+const required = require('../Helpers/RequiredParameters');
 
 class RegistrationDTO{
     constructor({email,phoneNo,firstName,lastName,dateOfBirth,password,bankID, accountTitle, accountNo, swiftCode}){

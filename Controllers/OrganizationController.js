@@ -1,31 +1,49 @@
-const orgService = require("../Services/OrganizationService");
+const orgService = require("../Services/OrganizationService")
+const { mapStatus } = require("../Utils/statusMapper")
 
-async function getOrgsController(req, res)
-{
+async function getOrgsController(req, res) {
   try
   {
-    const orgStatus = req.query.status
-    const paginatedResult = await orgService.getOrganization(orgStatus, req.pagination);
-    res.status(200).json(paginatedResult);
-    }
-    catch (err)
-    {
-        res.status(400).json({ message: err.message });
-    }
-}
+    const orgStatus = req.query.status ? mapStatus(req.query.status) : null
+    const paginatedResult = await orgService.getOrganization(orgStatus, req.pagination)
 
-async function updateOrgStatusController(req, res)
-{
-  try
-  {
-    const { orgId,status } = req.params;
-    const updated = await orgService.updateOrganizationStatus(orgId,status);
-    res.status(200).json({ message: "Organization status updated", org: updated });
+    res.status(200).json({
+      success: true,
+      data: paginatedResult,
+    })
   }
   catch (err)
   {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({
+      success: false,
+      message: err.message,
+    })
   }
 }
 
-module.exports = { getOrgsController,updateOrgStatusController }
+async function updateOrgStatusController(req, res) {
+  try
+  {
+    const { orgId, status } = req.params
+    const mappedStatus = mapStatus(status)
+    if (!mappedStatus)
+    {
+      return res.status(400).json({ message: "Invalid organization status" })
+    }
+    const updated = await orgService.updateOrganizationStatus(orgId, mappedStatus)
+    res.status(200).json({
+      success: true,
+      message: "Organization status updated",
+      org: updated,
+    })
+  }
+  catch (err)
+  {
+    res.status(400).json({
+      success: false,
+      message: err.message,
+    })
+  }
+}
+
+module.exports = { getOrgsController, updateOrgStatusController }

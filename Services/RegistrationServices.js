@@ -1,15 +1,31 @@
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const jwt = require("jsonwebtoken");
 const User = require('../Models/UserModel');
 const userBank = require("../Models/UserBankModel");
 const bank = require("../Models/BankModel");
 const organizationSchema = require("../Models/OrganizationModel");
+
+function verifyOtpToken(token) {
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    throw new Error("Invalid or expired OTP token");
+  }
+}
 
 async function registerUser(userData,orgData,files)
 {
   const session = await mongoose.startSession();
   try{
   session.startTransaction();
+  
+    if (!userData.otpToken) {
+      throw new Error("OTP verification required");
+    }
+
+    verifyOtpToken(userData.otpToken);
+
   const existingUser = await User.findOne({
       $or: [
         { email: userData.email },

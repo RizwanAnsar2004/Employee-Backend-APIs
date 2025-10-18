@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
         type : Boolean,
         default : false
     },
-     statusID: {
+    statusID: {
     type: Number,
     enum: Object.values(status),
     default: status.PENDING

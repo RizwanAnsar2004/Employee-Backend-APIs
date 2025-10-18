@@ -1,8 +1,5 @@
 const { organizationStatus,OrgTypeEnum } = require('../Utils/Enums');
-
-const required = (param) => {
-throw new Error(`${param} is required`);
-}
+const required = require('../Helpers/RequiredParameters');
 
 const organizationStatusString = Object.fromEntries(
   Object.entries(organizationStatus).map(([k, v]) => [v, k])
