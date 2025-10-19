@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Employee Management</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Tailwind CDN custom configuration
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primaryBlue: '#4F8EF7',
+              secondaryBlue: '#3B73D1',
+              mintGreen: '#3ED6B1',
+              softGray: '#F3F6F9',
+              textPrimary: '#1E293B'
+            },
+            fontFamily: {
+              montserrat: ['Montserrat', 'sans-serif']
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-softGray font-montserrat">
+    <div id="root"></div>
+  </body>
+</html>

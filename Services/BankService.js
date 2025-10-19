@@ -1,4 +1,5 @@
 const bank = require('../Models/BankModel');
+const { BankResponseDTO } = require("../DTO/BankDTO");
 
 const addBankInfo = async (addBankData) => {
     const existing = await bank.findOne({ bankCode: addBankData.bankCode });
@@ -11,7 +12,9 @@ const addBankInfo = async (addBankData) => {
 };
 
 const getAllBanks = async () => {
-  return await bank.find({ isActive: true});
+  const activeBank = await bank.find({ isActive: true});
+  const response = activeBank.map(b => new BankResponseDTO(b));
+  return response || [];
 };
 
 const deactivateBank  = async (bankID) => {

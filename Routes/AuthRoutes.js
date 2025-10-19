@@ -1,6 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const { registerUserController } = require("../Controllers/RegistrationController");
-const { validateDTO } = require("../Middlewares/ValidateUserRegistration");
-router.post("/register", validateDTO, registerUserController);
+const upload = require("../Middlewares/Multer");
+const { registrationController } = require("../Controllers/RegistrationController");
+const { validateDTO,validateUserCredentials } = require("../Middlewares/ValidateUserRegistration");
+const { validateOrgDTO } = require("../Middlewares/ValidateOrgRegistration");
+const { loginController } = require("../Controllers/AuthController");
+const { addOtpToken } = require("../Middlewares/AddOtpToken");
+
+
+router.post("/register",  upload.fields([
+    { name: "frontLicenseImg", maxCount: 1 },
+    { name: "backLicenseImg", maxCount: 1 },
+    { name: "logo", maxCount: 1 },
+  ]),
+  addOtpToken, validateDTO, validateOrgDTO, registrationController);
+
+router.post("/login",validateUserCredentials,loginController);
 module.exports = router;

@@ -13,7 +13,7 @@ const addBankInfo = async (req, res) => {
 const getAllBanks = async (req, res) => {
   try {
     const banks = await bankService.getAllBanks();
-    res.status(200).json({ banks });
+    res.status(200).json({ Banks : banks });
   } 
   catch (err) {
     res.status(500).json({ message: err.message });

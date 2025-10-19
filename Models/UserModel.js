@@ -1,43 +1,46 @@
 const mongoose = require('mongoose');
-const status ={
-    PENDING: 0,
-    VERIFIED: 1
-}
-const role ={
-    OWNER: 0,
-    EMPLOYEE: 1
-}
+const { status, role } = require('../Utils/Enums');
 
 const userSchema = new mongoose.Schema({
    email : {
         type: String,
         required: true,
+        unique: true,
         match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ 
     },
     phoneNo: {
         type: String,
         required: true,
+        unique: true,
         match: /^03[0-9]{9}$/
     },
     firstName: String,
     lastName: String,
     dateOfBirth: Date,
     password: String,
-    frontLicenseImgID: String,
-    backLicenseImgID : String,
+    frontLicenseImg: String,
+    backLicenseImg : String,
     isActive: {
         type: Boolean,
         default: true
     },
-     statusID: {
+    isSystemAdmin: {
+        type : Boolean,
+        default : false
+    },
+    organizationId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Organization",
+    },
+    statusID: {
     type: Number,
-    enum: [status.PENDING, status.VERIFIED],
+    enum: Object.values(status),
     default: status.PENDING
     },
     roleID: {
         type: Number,
-        enum: [role.OWNER, role.EMPLOYEE],
-        default: role.OWNER 
+        enum: Object.values(role),
+        default: role.OWNER
     }
 });
 

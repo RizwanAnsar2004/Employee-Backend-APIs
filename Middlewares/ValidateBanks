@@ -1,13 +1,15 @@
-const { AddBankDTO } = require("../DTO/AddBankDTO");
+const { AddBankDTO } = require("../DTO/BankDTO");
 
 function validateBanks(req, res, next) {
- try {
-    addBankInfo  = new AddBankDTO(req.body);
-    req.addBankData = addBankInfo;
-    next();
+ try 
+ {
+   addBankInfo  = new AddBankDTO(req.body);
+   req.addBankData = addBankInfo;
+   next();
  }
-catch (err) {
-  res.status(400).json({ message: err.message });
- }
+catch (err) 
+{
+   res.status(400).json({ message: err.message });
+}
 }
 module.exports = { validateBanks }
