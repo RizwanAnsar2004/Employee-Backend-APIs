@@ -35,7 +35,7 @@ async function addEmployee(dto) {
 }
 
 async function getEmployeesByOrg(orgId) {
-  const employees = await Employee.find({ organizationId: orgId }).populate("departmentId", "name");
+  const employees = await Employee.find({ organizationId: orgId }).populate("departmentId", "name").lean();;
   return employees;
 }
 
