@@ -1,19 +1,18 @@
 class VerifyOTPModel {
-constructor ({email, phoneNo, otp})
-{
-    if(!otp){
-        throw new Error("OTP is Required");
+  constructor({ email, phoneNo, otp }) {
+    if (!otp || typeof otp !== "string" || otp.trim() === "") {
+      throw new Error("OTP is required and must be a non-empty string");
     }
-    if (!email) {
-        throw new Error("Enter Valid Email");
+    if (!email || typeof email !== "string" || !/^\S+@\S+\.\S+$/.test(email.trim())) {
+      throw new Error("Valid email is required");
     }
-    if (!phoneNo) {
-        throw new Error("Enter Valid Phone No")
+    if (!phoneNo || typeof phoneNo !== "string" || !/^\+?\d{10,15}$/.test(phoneNo.trim())) {
+      throw new Error("Valid phone number is required (10-15 digits, optional + prefix)");
     }
 
-    this.email = email || null;
-    this.phoneNo = phoneNo || null;
-    this.otp = otp;
+    this.email = email.trim().toLowerCase();
+    this.phoneNo = phoneNo.trim();
+    this.otp = otp.trim();
+  }
 }
-}
-module.exports = {VerifyOTPModel};
+module.exports = { VerifyOTPModel };

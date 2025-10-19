@@ -7,7 +7,6 @@ const validatePaginationSortingDTO = require("../Middlewares/ValidatePaginationS
 
 router.get("/",authenticateUser,requireSuperAdmin,validatePaginationSortingDTO(
     ["createdAt", "organizationName", "orgType"]),getOrgsController);
-
 router.patch("/:orgId/:status",authenticateUser,requireSuperAdmin,updateOrgStatusController);
 
 module.exports = router;

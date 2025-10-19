@@ -39,4 +39,14 @@ async function getEmployeesByOrg(orgId) {
   return employees;
 }
 
-module.exports = { addEmployee, getEmployeesByOrg };
+async function removeEmployee(id) {
+  const employee = await Employee.findById(id);
+  if (!employee) {
+    throw new Error("Employee not found");
+  }
+  employee.isActive = false;
+  await employee.save();
+
+  return { message: "Employee terminated" };
+}
+module.exports = { addEmployee, getEmployeesByOrg, removeEmployee };

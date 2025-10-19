@@ -8,21 +8,21 @@ import axiosInstance from "../api/axiosInstance";
 const OwnerCreateDept = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [departments, setDepartments] = useState([]);
-  const orgId = localStorage.getItem("orgId"); // must be set at login
+  const orgId = localStorage.getItem("orgId");
 
   const fetchDepartments = async () => {
+    if (!orgId) return;
     try {
       const res = await axiosInstance.get(`/department/getByOrg/${orgId}`);
-      setDepartments(res.data.data || []); // use data field from backend
+      setDepartments(res.data.data || []);
     } catch (err) {
       console.error("Failed to fetch departments:", err);
-      alert("Error fetching departments");
     }
   };
 
   useEffect(() => {
     fetchDepartments();
-  }, []);
+  }, [orgId]);
 
   return (
     <div className="flex h-screen font-sans bg-gray-50">

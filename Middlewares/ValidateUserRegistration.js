@@ -3,6 +3,10 @@ const { RegistrationDTO,UserCredentialsDTO } = require("../DTO/RegistrationDTO")
 function validateDTO(req, res, next) {
     try {
         const dto = new RegistrationDTO(req.body);
+        if (req.userData?.otpToken)
+        {
+            dto.otpToken = req.userData.otpToken;
+        }
         req.userData = dto;
         next();
     } catch (err) {

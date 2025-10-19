@@ -4,11 +4,12 @@ const statusMap = {
   pending: organizationStatus.PENDING,
   approved: organizationStatus.VERIFIED,
   verified: organizationStatus.VERIFIED,
-  rejected: organizationStatus.REJECTED,
+  rejected: organizationStatus.BLOCKED,
   blocked: organizationStatus.BLOCKED,
 };
 
-function mapStatus(input) {
+function mapStatus(input)
+{
   return statusMap[input?.toLowerCase()] || null;
 }
 

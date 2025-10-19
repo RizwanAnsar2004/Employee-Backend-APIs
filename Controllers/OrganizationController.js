@@ -25,12 +25,7 @@ async function updateOrgStatusController(req, res) {
   try
   {
     const { orgId, status } = req.params
-    const mappedStatus = mapStatus(status)
-    if (!mappedStatus)
-    {
-      return res.status(400).json({ message: "Invalid organization status" })
-    }
-    const updated = await orgService.updateOrganizationStatus(orgId, mappedStatus)
+    const updated = await orgService.updateOrganizationStatus(orgId, status)
     res.status(200).json({
       success: true,
       message: "Organization status updated",

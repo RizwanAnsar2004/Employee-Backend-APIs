@@ -1,15 +1,25 @@
 import React from "react";
 import { FaBell, FaUserCircle, FaBars } from "react-icons/fa";
 
-const Navbar = ({ sidebarOpen, toggleSidebar, role }) => {
+const Navbar = ({ sidebarOpen, toggleSidebar }) => {
+  // ✅ Read role directly from localStorage
+  const storedRole = localStorage.getItem("role");
+  const displayRole = storedRole?.toUpperCase() || "OWNER";
+
   return (
     <div className="bg-white/70 backdrop-blur-md shadow-md p-4 flex justify-between items-center border-b border-gray-200">
       <div className="flex items-center gap-4">
-        <button onClick={toggleSidebar} className="text-gray-600 hover:text-gray-800 transition">
+        <button
+          onClick={toggleSidebar}
+          className="text-gray-600 hover:text-gray-800 transition"
+        >
           <FaBars size={20} />
         </button>
-        <h1 className={`text-2xl font-bold text-gray-800 transition-all duration-300`}>
-          {role === "SUPERADMIN" ? "Super Admin Dashboard" : "Owner Dashboard"}
+
+        <h1 className="text-2xl font-bold text-gray-800 transition-all duration-300">
+          {displayRole === "SUPERADMIN"
+            ? "Super Admin Dashboard"
+            : "Owner Dashboard"}
         </h1>
       </div>
 
@@ -21,7 +31,9 @@ const Navbar = ({ sidebarOpen, toggleSidebar, role }) => {
 
         <div className="flex items-center gap-2 cursor-pointer hover:text-gray-800 transition">
           <FaUserCircle size={24} className="text-gray-600" />
-          <span className="text-gray-700 font-medium">{role}</span>
+          <span className="text-gray-700 font-medium">
+            {displayRole === "SUPERADMIN" ? "Super Admin" : "Owner"}
+          </span>
         </div>
       </div>
     </div>

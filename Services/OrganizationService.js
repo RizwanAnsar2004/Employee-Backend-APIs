@@ -3,7 +3,7 @@ const User = require("../Models/UserModel");
 const { organizationStatus, status } = require("../Utils/Enums");
 const { OrgResponseDTO } = require("../DTO/OrganizationDTO");
 const { PaginatedOrgResponseDTO } = require("../DTO/PaginationSortingDTO");
-const { mapStatus } = require("../Utils/statusMapper");
+const { statusMap } = require("../Utils/statusMapper");
 
 async function getOrganization(orgStatus, pagination) {
   let query = {};
@@ -56,44 +56,24 @@ async function updateOrganizationStatus(orgId, newStatus) {
     throw new Error("Organization not found");
   }
 
-  let mappedStatus;
-  if (typeof newStatus === "string")
-  {
-    mappedStatus = mapStatus(newStatus);
-  }
-  else if (typeof newStatus === "number")
-  {
-    mappedStatus = newStatus;
-  }
+  const mappedStatus = typeof newStatus === "number" ? newStatus : statusMap[newStatus?.toLowerCase()];
 
-  const validStatuses = Object.values(organizationStatus);
-  if (!mappedStatus || !validStatuses.includes(mappedStatus))
+  if (!mappedStatus || !Object.values(organizationStatus).includes(mappedStatus))
   {
-    throw new Error("Invalid status");
+    throw new Error("Invalid organization status");
   }
 
   org.orgStatus = mappedStatus;
   const updatedOrg = await org.save();
 
-  let userStatus;
-  if (mappedStatus === organizationStatus.VERIFIED)
-  {
-    userStatus = status.VERIFIED;
-  }
-  else if (mappedStatus === organizationStatus.BLOCKED)
-  {
-    userStatus = status.BLOCKED;
-  }
-  else
-  {
-    userStatus = status.PENDING;
-  }
+  const userStatus =
+    mappedStatus === organizationStatus.VERIFIED
+      ? status.VERIFIED
+      : mappedStatus === organizationStatus.BLOCKED
+      ? status.BLOCKED
+      : status.PENDING;
 
-  await User.updateMany(
-    { organizationId: org._id },
-    { $set: { statusID: userStatus } }
-  );
-
+  await User.updateMany({ organizationId: org._id }, { $set: { statusID: userStatus } });
   return new OrgResponseDTO(updatedOrg);
 }
 

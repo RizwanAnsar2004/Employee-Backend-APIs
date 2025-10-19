@@ -1,5 +1,6 @@
 const { default: mongoose } = require('mongoose');
-const otpVerificationModel = require ('../Models/OTPVerificationModel');
+const jwt = require("jsonwebtoken"); 
+const otpVerificationModel = require("../Models/OTPVerificationModel");
 
 function generateOTP(){
     return Math.floor(Math.random()*10000).toString().padStart(4,'0');
@@ -31,36 +32,66 @@ async function createOrResendOTP(OTPObject)
     return {message: 'OTP sent'};
 }
 
-async function verifyOTP(dto)
-{
-    const { email, phoneNo, otp } = dto;
-    const searchParamters={
-        isActive:true,
-        isVerified: false 
-    };
+async function verifyOTP(dto) {
+  try 
+  {
+    const email = dto.email.trim().toLowerCase();
+    const phoneNo = dto.phoneNo.trim();
+    const otp = dto.otp.trim();
 
-    if(email) 
+    console.log("Verifying OTP with:", { email, phoneNo, otp }); 
+
+    const existingRecord = await otpVerificationModel.findOne({ email, phoneNo });
+    if (existingRecord && existingRecord.isVerified)
     {
-        searchParamters.email = email;
+      console.log("OTP already verified for:", { email, phoneNo });
+      return { success: false, message: "OTP already verified. Please request a new OTP." };
     }
-    if(phoneNo)
+
+    const record = await otpVerificationModel.findOne({
+      email,
+      phoneNo,
+      isActive: true,
+      isVerified: false,
+    });
+
+    if (!record)
     {
-        searchParamters.phoneNo = phoneNo;
+      console.log("No active OTP record found for:", { email, phoneNo });
+      return { success: false, message: "Invalid Email, Phone Number, or OTP expired" };
     }
-    const record = await otpVerificationModel.findOne(searchParamters);
-    if (!record)  throw new Error('Invalid Email or Phone Number');
-    if (record.otp !== otp) throw new Error('Incorrect OTP entered');
-   
+
+    if (record.otp !== otp)
+    {
+      console.log("OTP mismatch:", { stored: record.otp, provided: otp });
+      return { success: false, message: "Incorrect OTP entered" };
+    }
+
     record.isVerified = true;
     record.isActive = false;
+    console.log("Updating OTP record:", record); 
     await record.save();
 
-    const otpToken = jwt.sign(
-    { email, phoneNo },
-    process.env.JWT_SECRET,
-    { expiresIn: "10m" } );
+    if (!process.env.JWT_SECRET) {
+      console.error("JWT_SECRET is not defined");
+      throw new Error("Server configuration error: JWT_SECRET missing");
+    }
 
-    return { success: true, message: 'OTP Verified successfully' };
+    const otpToken = jwt.sign({ email, phoneNo }, process.env.JWT_SECRET, { expiresIn: "10m" });
+
+    return { success: true, message: "OTP Verified successfully", otpToken };
+  }
+  catch (err)
+  {
+    console.error("Detailed error during OTP verification:", {
+      message: err.message,
+      stack: err.stack,
+      email: dto.email,
+      phoneNo: dto.phoneNo,
+      otp: dto.otp,
+    });
+    return { success: false, message: `Server error during OTP verification: ${err.message}` };
+  }
 }
 
 module.exports= {createOrResendOTP,verifyOTP};

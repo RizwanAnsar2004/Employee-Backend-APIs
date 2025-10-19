@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');  // <-- add this
+const cors = require('cors'); 
 const userRoutes = require('./Routes/UserRoutes');
 const errorHandler = require('./Middlewares/ErrorHandler');
 const OTPRoutes = require('./Routes/OTPRoutes');
@@ -16,10 +16,10 @@ const app = express();
 // Middlewares
 app.use(express.json());
 
-// CORS middleware (must come BEFORE routes)
+// CORS middleware 
 app.use(cors({
   origin: 'http://localhost:3000', // your frontend URL
-  methods: ['GET','POST','PUT','DELETE'],
+  methods: ['GET','POST','PUT','PATCH','DELETE'],
   credentials: true
 }));
 
@@ -32,8 +32,8 @@ app.use('/api/otp', OTPRoutes);
 app.use('/api/auth', authRoutes);
 app.use("/api/orgs", orgRoutes);
 app.use("/api/banks", bankRoutes);
-app.use('/department', deptRoutes);
-app.use('/employees', employeeRoutes);
+app.use('/api/department', deptRoutes);
+app.use('/api/employees', employeeRoutes);
 
 app.use(errorHandler);
 

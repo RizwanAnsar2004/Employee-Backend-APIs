@@ -5,13 +5,15 @@ const { registrationController } = require("../Controllers/RegistrationControlle
 const { validateDTO,validateUserCredentials } = require("../Middlewares/ValidateUserRegistration");
 const { validateOrgDTO } = require("../Middlewares/ValidateOrgRegistration");
 const { loginController } = require("../Controllers/AuthController");
+const { addOtpToken } = require("../Middlewares/AddOtpToken");
+
 
 router.post("/register",  upload.fields([
     { name: "frontLicenseImg", maxCount: 1 },
     { name: "backLicenseImg", maxCount: 1 },
     { name: "logo", maxCount: 1 },
   ]),
-  validateDTO, validateOrgDTO, registrationController);
+  addOtpToken, validateDTO, validateOrgDTO, registrationController);
 
 router.post("/login",validateUserCredentials,loginController);
 module.exports = router;

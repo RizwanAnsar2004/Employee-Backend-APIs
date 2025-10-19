@@ -5,6 +5,8 @@ async function registrationController(req,res,next){
       const files = req.files;
       const userResult = await registrationServices.registerUser(req.userData,req.orgData,req.files);
       res.status(201).json({
+      success: true,
+      message: "Registration successful! Please log in.",
       user: userResult
     });
     }

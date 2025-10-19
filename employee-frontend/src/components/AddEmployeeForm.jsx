@@ -11,7 +11,6 @@ const AddEmployeeForm = ({ orgId, departments, refresh }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!departmentId) {
       alert("Please select a department");
       return;
@@ -28,15 +27,15 @@ const AddEmployeeForm = ({ orgId, departments, refresh }) => {
     };
 
     try {
-      const res = await axiosInstance.post("/employees/add", { employeeData });
-      alert(`Employee added successfully. Temp password: ${res.data.tempPassword}`);
+      const res = await axiosInstance.post("/employees/add", employeeData);
+      alert(`Employee added. Temp password: ${res.data.tempPassword}`);
       setFirstName("");
       setLastName("");
       setEmail("");
       setPhoneNo("");
       setDepartmentId("");
       setDesignation("");
-      refresh(); // refresh employee table
+      refresh();
     } catch (err) {
       console.error("Failed to add employee:", err.response?.data || err.message);
       alert(err.response?.data?.message || "Failed to add employee");
@@ -63,7 +62,6 @@ const AddEmployeeForm = ({ orgId, departments, refresh }) => {
           className="border border-gray-300 px-3 py-2 rounded-lg flex-1"
         />
       </div>
-
       <div className="flex gap-2">
         <input
           type="email"
@@ -82,7 +80,6 @@ const AddEmployeeForm = ({ orgId, departments, refresh }) => {
           className="border border-gray-300 px-3 py-2 rounded-lg flex-1"
         />
       </div>
-
       <div className="flex gap-2">
         <select
           value={departmentId}
@@ -92,12 +89,9 @@ const AddEmployeeForm = ({ orgId, departments, refresh }) => {
         >
           <option value="">Select Department</option>
           {departments.map((dept) => (
-            <option key={dept._id} value={dept._id}>
-              {dept.deptName}
-            </option>
+            <option key={dept._id} value={dept._id}>{dept.deptName}</option>
           ))}
         </select>
-
         <input
           type="text"
           value={designation}
@@ -106,7 +100,6 @@ const AddEmployeeForm = ({ orgId, departments, refresh }) => {
           className="border border-gray-300 px-3 py-2 rounded-lg flex-1"
         />
       </div>
-
       <button
         type="submit"
         className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 w-32"

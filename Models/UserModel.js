@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
         type : Boolean,
         default : false
     },
+    organizationId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Organization",
+    },
     statusID: {
     type: Number,
     enum: Object.values(status),

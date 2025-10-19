@@ -1,40 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axiosInstance from "../api/axiosInstance";
 
-const EmployeeTable = ({ orgId }) => {
-  const [employees, setEmployees] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchEmployees = async () => {
-    setLoading(true);
-    try {
-      const res = await axiosInstance.get("/employees/getAll");
-      // backend sends array under res.data
-      setEmployees(res.data || []);
-    } catch (err) {
-      console.error("Failed to fetch employees:", err);
-      alert("Error fetching employees");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+const EmployeeTable = ({ employees, refresh }) => {
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this employee?")) return;
+    if (!window.confirm("Are you sure you want to remove this employee?")) return;
     try {
       await axiosInstance.delete(`/employees/delete/${id}`);
-      fetchEmployees(); // refresh table
+      refresh(); // refresh table after removal
     } catch (err) {
-      console.error("Failed to delete employee:", err);
+      console.error("Failed to remove employee:", err);
       alert("Delete failed");
     }
   };
 
-  useEffect(() => {
-    fetchEmployees();
-  }, []);
-
-  if (loading) return <p>Loading employees...</p>;
   if (!employees || employees.length === 0) return <p>No employees found.</p>;
 
   return (
@@ -48,17 +26,15 @@ const EmployeeTable = ({ orgId }) => {
             <th className="px-6 py-3 text-left">Phone</th>
             <th className="px-6 py-3 text-left">Department</th>
             <th className="px-6 py-3 text-left">Designation</th>
+            <th className="px-6 py-3 text-left">Status</th>
             <th className="px-6 py-3 text-left">Actions</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
           {employees.map((emp, idx) => {
-            // handle department name from either populated object or fallback
-            const deptName =
-              emp.departmentId?.deptName || emp.departmentId?.name || "N/A";
-
+            const deptName = emp.departmentId?.deptName || emp.departmentId?.name || "N/A";
             return (
-              <tr key={emp._id}>
+              <tr key={emp._id} className={emp.isActive ? "" : "bg-gray-100"}>
                 <td className="px-6 py-4">{idx + 1}</td>
                 <td className="px-6 py-4">{`${emp.firstName} ${emp.lastName}`}</td>
                 <td className="px-6 py-4">{emp.email}</td>
@@ -66,12 +42,21 @@ const EmployeeTable = ({ orgId }) => {
                 <td className="px-6 py-4">{deptName}</td>
                 <td className="px-6 py-4">{emp.designation || "N/A"}</td>
                 <td className="px-6 py-4">
-                  <button
-                    onClick={() => handleDelete(emp._id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
+                  {emp.isActive ? (
+                    <span className="text-green-600 font-bold">Active</span>
+                  ) : (
+                    <span className="text-red-600 font-bold">Inactive</span>
+                  )}
+                </td>
+                <td className="px-6 py-4">
+                  {emp.isActive && (
+                    <button
+                      onClick={() => handleDelete(emp._id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    >
+                      Remove
+                    </button>
+                  )}
                 </td>
               </tr>
             );
